@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trips Live Activity — Product Case</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Archivo', sans-serif;
+    background: #F5F5F6;
+    color: #040309;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 32px;
+  }
+
+  /* HEADER */
+  .header {
+    background: #040309;
+    color: #fff;
+    border-radius: 16px;
+    padding: 40px 40px 36px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '🐸';
+    font-size: 120px;
+    position: absolute;
+    right: -10px;
+    bottom: -20px;
+    opacity: 0.08;
+    line-height: 1;
+  }
+  .header-eyebrow {
+    background: #00D973;
+    color: #040309;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    color: #fff;
+  }
+  .header h1 span { color: #00D973; }
+  .header-sub {
+    font-size: 16px;
+    color: #96969A;
+    max-width: 560px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header-meta-item {
+    font-size: 13px;
+    color: #96969A;
+  }
+  .header-meta-item strong { color: #fff; }
+
+  /* VERDICT BANNER */
+  .verdict {
+    background: #00D973;
+    color: #040309;
+    border-radius: 12px;
+    padding: 20px 28px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .verdict-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+  .verdict-text { font-size: 15px; font-weight: 700; line-height: 1.4; }
+  .verdict-text em { font-style: normal; font-weight: 400; display: block; margin-top: 4px; font-size: 14px; }
+
+  /* SECTION HEADERS */
+  h2 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2 .section-num {
+    background: #040309;
+    color: #00D973;
+    font-size: 11px;
+    font-weight: 800;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* CARDS GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .card-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #96969A;
+    margin-bottom: 8px;
+  }
+  .card-stat {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+  .card-stat.green { color: #00D973; }
+  .card-stat.cobalt { color: #1440CC; }
+  .card-stat.purple { color: #8A06E1; }
+  .card-stat.red { color: #E84040; }
+  .card-desc { font-size: 13px; color: #40404A; line-height: 1.4; }
+  .card-source { font-size: 11px; color: #96969A; margin-top: 8px; font-style: italic; }
+
+  /* EVIDENCE SECTION */
+  .evidence-block {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 32px;
+  }
+  .evidence-block h2 { margin-bottom: 20px; }
+
+  .evidence-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid #F5F5F6;
+    align-items: start;
+  }
+  .evidence-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .evidence-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .tag-industry { background: #EEF3FF; color: #1440CC; }
+  .tag-survey { background: #F3EAFF; color: #8A06E1; }
+  .tag-reviews { background: #FFF0F7; color: #FF67A8; }
+  .tag-internal { background: #EBFAF3; color: #007A40; }
+
+  .evidence-content { font-size: 14px; line-height: 1.5; }
+  .evidence-content strong { font-weight: 700; }
+  .evidence-content .quote {
+    background: #F5F5F6;
+    border-left: 3px solid #CDCDCE;
+    padding: 8px 12px;
+    margin-top: 8px;
+    font-style: italic;
+    font-size: 13px;
+    color: #40404A;
+    border-radius: 0 6px 6px 0;
+  }
+  .evidence-content .source-note { font-size: 12px; color: #96969A; margin-top: 4px; }
+
+  /* WHAT WE BUILD */
+  .feature-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .feature-item {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .feature-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #040309;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .feature-text h4 { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+  .feature-text p { font-size: 13px; color: #40404A; line-height: 1.4; }
+
+  /* DISRUPTION FLOW */
+  .flow {
+    background: #040309;
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 32px;
+    color: #fff;
+  }
+  .flow h2 { color: #fff; margin-bottom: 20px; }
+  .flow h2 .section-num { background: #00D973; color: #040309; }
+  .flow-steps {
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .flow-step {
+    flex: 1;
+    min-width: 130px;
+    background: #1A1A24;
+    border-radius: 10px;
+    padding: 14px 14px;
+    position: relative;
+    text-align: center;
+  }
+  .flow-step-icon { font-size: 20px; margin-bottom: 6px; }
+  .flow-step-label { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.3; }
+  .flow-step-sub { font-size: 11px; color: #96969A; margin-top: 4px; line-height: 1.3; }
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    color: #00D973;
+    font-size: 16px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .flow-step.highlight { background: #00D973; }
+  .flow-step.highlight .flow-step-label { color: #040309; }
+  .flow-step.highlight .flow-step-sub { color: #007A40; }
+
+  /* COMPETITIVE */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .comp-table th {
+    background: #040309;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 12px 16px;
+    text-align: left;
+  }
+  .comp-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #F5F5F6;
+    vertical-align: top;
+  }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table tr:nth-child(even) td { background: #FAFAFA; }
+  .tick { color: #00A847; font-weight: 800; }
+  .cross { color: #E84040; font-weight: 800; }
+  .partial { color: #F5A623; font-weight: 800; }
+
+  /* RISK SECTION */
+  .risk-block {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 32px;
+  }
+  .risk-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #F5F5F6;
+    font-size: 13px;
+    align-items: start;
+  }
+  .risk-row:first-child { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: #96969A; }
+  .risk-row:last-child { border-bottom: none; }
+  .risk-label { font-weight: 700; }
+  .risk-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-left: 6px;
+  }
+  .badge-low { background: #EBFAF3; color: #007A40; }
+  .badge-med { background: #FFF3E0; color: #E65C00; }
+  .badge-high { background: #FFEBEB; color: #C0392B; }
+
+  /* SUCCESS METRICS */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .metric-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .metric-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .metric-title { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+  .metric-target { font-size: 20px; font-weight: 800; color: #1440CC; margin-bottom: 3px; }
+  .metric-desc { font-size: 12px; color: #96969A; }
+
+  /* RECOMMENDATION */
+  .recommendation {
+    background: #040309;
+    color: #fff;
+    border-radius: 16px;
+    padding: 36px 40px;
+  }
+  .recommendation h2 { color: #fff; margin-bottom: 16px; }
+  .recommendation h2 .section-num { background: #00D973; color: #040309; }
+  .rec-body { font-size: 15px; line-height: 1.6; color: #CDCDCE; margin-bottom: 24px; }
+  .rec-body strong { color: #fff; }
+  .rec-phases { display: flex; flex-direction: column; gap: 10px; }
+  .rec-phase {
+    background: #1A1A24;
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .phase-tag {
+    background: #00D973;
+    color: #040309;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+  .phase-content h4 { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+  .phase-content p { font-size: 12px; color: #96969A; }
+
+  /* SECTION WRAPPER */
+  .section { margin-bottom: 32px; }
+
+  /* QUOTE CALLOUT */
+  .big-quote {
+    background: #1440CC;
+    color: #fff;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 32px;
+  }
+  .big-quote p { font-size: 17px; font-weight: 700; line-height: 1.4; margin-bottom: 6px; }
+  .big-quote span { font-size: 12px; color: #61C8FF; }
+
+  @media (max-width: 600px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .evidence-row { grid-template-columns: 1fr; }
+    .risk-row { grid-template-columns: 1fr; }
+    .metrics-grid { grid-template-columns: 1fr; }
+    .flow-steps { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); align-self: center; }
+    .header h1 { font-size: 26px; }
+    .comp-table { font-size: 12px; }
+    .comp-table th, .comp-table td { padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">Product Case · Post-Booking Experience</div>
+    <h1>Trips <span>Live Activity</span><br>& Journey Intelligence</h1>
+    <p class="header-sub">A proposal to extend Seatfrog's Live Activity success from auctions into the post-booking journey — giving users real-time train status, platform info, and proactive disruption help, right where they need it.</p>
+    <div class="header-meta">
+      <div class="header-meta-item">Author: <strong>Product</strong></div>
+      <div class="header-meta-item">Date: <strong>March 2026</strong></div>
+      <div class="header-meta-item">Stage: <strong>Discovery / Pitch</strong></div>
+      <div class="header-meta-item">Evidence base: <strong>n=4,741 survey responses + 6 weeks review data</strong></div>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <div class="verdict-icon">📊</div>
+    <div class="verdict-text">
+      Every data source we have — industry benchmarks, app store reviews, user surveys, and competitive analysis — independently points to the same unmet need. The convergence across sources makes this a high-confidence roadmap priority.
+      <em>The problem is documented, the user impact is quantifiable, the MVP scope is contained, and the cost of inaction is already visible in our review scores week-on-week.</em>
+    </div>
+  </div>
+
+  <!-- THE PROBLEM -->
+  <div class="section">
+    <h2><span class="section-num">1</span> The Problem in Numbers</h2>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-label">UK Trains Late in 2024</div>
+        <div class="card-stat red">30%</div>
+        <div class="card-desc">Nearly 1-in-3 UK trains ran late last year. Our users are on those trains.</div>
+        <div class="card-source">ORR Annual Rail Consumer Report 2024</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Passengers with no advance warning</div>
+        <div class="card-stat red">83%</div>
+        <div class="card-desc">Only 17% knew about disruptions before arriving at the station. 67% found out <em>at</em> the station.</div>
+        <div class="card-source">Transport Focus RCXS; DfT</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cancellation rate 2024–25</div>
+        <div class="card-stat red">4.1%</div>
+        <div class="card-desc">Record high since tracking began. 70,000 fully cancelled trains in Q4 alone.</div>
+        <div class="card-source">ORR / DfT 2024–25</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">Disruption satisfaction</div>
+        <div class="card-stat red">46%</div>
+        <div class="card-desc">Less than half of delayed passengers are satisfied with how disruption was handled. 40% of passengers find out about a disruption while already on the train — far too late.</div>
+        <div class="card-source">Transport Focus Rail Customer Satisfaction Survey</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Unclaimed delay compensation</div>
+        <div class="card-stat cobalt">£80M+</div>
+        <div class="card-desc">Goes unclaimed every year. 53% of eligible passengers still don't claim Delay Repay — biggest barriers are not knowing eligibility and process complexity.</div>
+        <div class="card-source">ORR / YouGov; Transport Focus</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEATFROG-SPECIFIC EVIDENCE -->
+  <div class="evidence-block">
+    <h2><span class="section-num">2</span> What Our Own Data Says</h2>
+
+    <div class="evidence-row">
+      <div><span class="evidence-tag tag-reviews">App Reviews</span></div>
+      <div class="evidence-content">
+        <strong>Tickets not loading during travel is a recurring critical failure.</strong> Reported across multiple weeks. Users resort to email screenshots at station gates. One review from Feb 2026 rated 1★: <div class="quote">"Tickets wouldn't appear when on the train; later retrieved with good signal."</div>
+        <div class="source-note">beeje1309, App Store 1★, Feb 2026 · Geraint Jones, Google Play 2★, Jan 2026</div>
+      </div>
+    </div>
+
+    <div class="evidence-row">
+      <div><span class="evidence-tag tag-reviews">App Reviews</span></div>
+      <div class="evidence-content">
+        <strong>Helplessness during cancellations is our biggest self-serve gap.</strong> Users praise our CS team on Trustpilot for fast refunds — but the in-app experience when something goes wrong is broken. The gap between CS quality (~90% Trustpilot positive) and self-serve experience (App Store) is our biggest internal contradiction.
+        <div class="quote">"Train cancelled… upgrade denied a refund. Impossible to talk to customer services."</div>
+        <div class="quote">"Train cancelled due to storms… very poor communication and refund experience; won't book tickets again."</div>
+        <div class="source-note">App Store/Trustpilot reviews, Jan–Feb 2026</div>
+      </div>
+    </div>
+
+    <div class="evidence-row">
+      <div><span class="evidence-tag tag-reviews">App Reviews</span></div>
+      <div class="evidence-content">
+        <strong>Status data inaccuracies are already damaging trust.</strong> Multiple reviews flag that train status shows "on time" for trains that have been cancelled. The Rail Delivery Group launched Visual Disruption Maps in 2025, with 93% of users rating them useful. Seatfrog showing cancelled trains as "on time" puts us behind the industry curve.
+        <div class="quote">"Status view doesn't work consistently… shows on time for trains that aren't."</div>
+        <div class="source-note">That bloody cyclist, App Store 2★, Jan 2026 · Rail Delivery Group 2025</div>
+      </div>
+    </div>
+
+    <div class="evidence-row">
+      <div><span class="evidence-tag tag-reviews">Reddit</span></div>
+      <div class="evidence-content">
+        <strong>Delay Repay eligibility confusion is an active, unresolved user question.</strong> A Reddit thread from Feb 2026 specifically asks whether a Seatfrog upgrade is eligible for Delay Repay when a prior leg cancellation causes a missed connection — Seatfrog provides no in-app guidance on this.
+        <div class="source-note">r/uktrains, "Delay Repay with Seatfrog upgrade", Feb 2026</div>
+      </div>
+    </div>
+
+    <div class="evidence-row">
+      <div><span class="evidence-tag tag-survey">Survey Research</span></div>
+      <div class="evidence-content">
+        <strong>Pre-travel anxiety is a documented, high-severity pain point</strong> across both active and inactive user cohorts. The journey mapping research flags it as one of our highest-impact unaddressed opportunities. Current notification systems add anxiety rather than reduce it — a gap we've already identified.
+        <div class="source-note">Seatfrog Rail Journey Experience Map; Internal journey research (n=4,741)</div>
+      </div>
+    </div>
+
+    <div class="evidence-row">
+      <div><span class="evidence-tag tag-internal">Internal</span></div>
+      <div class="evidence-content">
+        <strong>Live Activities for auctions have already validated the pattern.</strong> We know users engage with real-time, contextual updates in a high-stakes moment. Auction Live Activity works because users are anxious about the outcome and want live resolution. Travel day is an identical emotional context — arguably higher stakes, because their whole journey is at risk.
+        <div class="source-note">Internal product knowledge</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BIG QUOTE -->
+  <div class="big-quote">
+    <p>"Punctuality and reliability is the #1 complaint category in UK rail at 19.3% of all complaints — and only 17% of passengers get advance warning of disruption."</p>
+    <span>ORR Annual Rail Consumer Report 2024–25 · Transport Focus</span>
+  </div>
+
+  <!-- MVP FIRST -->
+  <div class="section">
+    <h2><span class="section-num">3</span> Start Simple: The MVP</h2>
+    <p style="margin-bottom:20px; font-size:14px; color:#40404A;">Before building the full Live Activity suite, there's a version we can ship fast that solves the most acute user pain — and proves the concept with real data. The MVP is intentionally narrow: <strong>tell users their train is delayed or cancelled, and tell them what to do next.</strong> That's it.</p>
+
+    <div style="background:#1440CC; border-radius:12px; padding:24px 28px; margin-bottom:20px; color:#fff;">
+      <div style="font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.07em; color:#61C8FF; margin-bottom:10px;">The MVP in one sentence</div>
+      <div style="font-size:18px; font-weight:800; line-height:1.4;">When a Seatfrog user's train is delayed or cancelled, the app and Live Activity update immediately — and tell them clearly what their next steps are.</div>
+    </div>
+
+    <ul class="feature-list" style="margin-bottom:20px;">
+      <li class="feature-item">
+        <div class="feature-icon">🔔</div>
+        <div class="feature-text">
+          <h4>Push notification on disruption</h4>
+          <p>The moment a user's booked train is flagged as delayed or cancelled, they get a push. Not a generic alert — a personal one. "Your 14:30 London → Edinburgh is currently running 18 minutes late." They hear it from us before they hear it from anyone else.</p>
+        </div>
+      </li>
+      <li class="feature-item">
+        <div class="feature-icon">📋</div>
+        <div class="feature-text">
+          <h4>Clear "what do I do now?" next steps</h4>
+          <p>Tapping the notification opens a simple, calm screen: what's happened, what it means for their ticket, and what their options are. No jargon. No hunting. Just: "Your ticket is valid on the next available service. You don't need to do anything." Or: "This train is cancelled — here's how to travel or get a refund."</p>
+        </div>
+      </li>
+      <li class="feature-item">
+        <div class="feature-icon">🟢</div>
+        <div class="feature-text">
+          <h4>Live Activity status pill</h4>
+          <p>For users with an upcoming booked trip, a minimal Live Activity appears on the lock screen and Dynamic Island: the train status (On time / Delayed Xmins / Cancelled) and a single next-step prompt. No platform info yet, no connection tracking — just the status and what it means. One glance = enough information to act.</p>
+        </div>
+      </li>
+      <li class="feature-item">
+        <div class="feature-icon">✅</div>
+        <div class="feature-text">
+          <h4>Ticket validity reassurance</h4>
+          <p>The single highest-anxiety question when a train is cancelled is: "is my upgrade still valid?" The MVP answers this explicitly and immediately. "Your First Class upgrade is valid on the next available service." This one line, delivered at the right moment, is the difference between a 1★ review and a 5★.</p>
+        </div>
+      </li>
+    </ul>
+
+    <div style="background:#F5F5F6; border-radius:12px; padding:20px 24px; border-left:4px solid #00D973;">
+      <div style="font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.07em; color:#96969A; margin-bottom:8px;">Why start here</div>
+      <p style="font-size:14px; color:#40404A; line-height:1.5;">This MVP requires no new complex integrations beyond a reliable live train data feed (which we need to fix regardless). It doesn't need TrainSwap deep-linking, Delay Repay automation, or connection tracking. It just needs: <strong>know the user's trip → watch the train status → alert them proactively → tell them what to do.</strong> Ship this, measure it, then build the rest on proven foundations.</p>
+    </div>
+  </div>
+
+  <!-- FULL VISION -->
+  <div class="section">
+    <h2><span class="section-num">4</span> The Full Vision: What We Build Next</h2>
+    <p style="margin-bottom:20px; font-size:14px; color:#40404A;">Once the MVP is live and the data feed is reliable, we expand the Live Activity into a full travel companion. Each phase adds a new layer of value — but the MVP alone is already a significant improvement over today.</p>
+    <ul class="feature-list">
+      <li class="feature-item">
+        <div class="feature-icon">🏟️</div>
+        <div class="feature-text">
+          <h4>Platform Information</h4>
+          <p>When the platform is confirmed, it appears immediately on the Live Activity and Dynamic Island. No more hunting between apps. For connections, shows platform for each leg.</p>
+        </div>
+      </li>
+      <li class="feature-item">
+        <div class="feature-icon">🔄</div>
+        <div class="feature-text">
+          <h4>Disruption → TrainSwap Flow</h4>
+          <p>One-tap access to TrainSwap directly from the Live Activity when disruption is detected. "Your train is cancelled — swap for free?" Converts a pain point into a product moment that showcases Seatfrog's unique capabilities.</p>
+        </div>
+      </li>
+      <li class="feature-item">
+        <div class="feature-icon">🕐</div>
+        <div class="feature-text">
+          <h4>Connection Confidence</h4>
+          <p>For multi-leg journeys: real-time connection buffer. "Your connection at Birmingham is safe — 14 mins buffer." Reduces the single most anxiety-inducing moment of a complex journey.</p>
+        </div>
+      </li>
+      <li class="feature-item">
+        <div class="feature-icon">💰</div>
+        <div class="feature-text">
+          <h4>Delay Repay Assist</h4>
+          <p>When a qualifying delay occurs, Seatfrog proactively surfaces the claim: "Your train arrived 32 minutes late. You're owed 50% back. Shall I start the claim?" Turns £80M in unclaimed compensation into a loyalty moment.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- DISRUPTION FLOW -->
+  <div class="flow">
+    <h2><span class="section-num">5</span> The Disruption Journey — Redesigned</h2>
+    <div style="font-size:13px; color:#96969A; margin-bottom:20px;">Today vs with Trips Live Activity</div>
+    <div style="font-size:12px; color:#61C8FF; margin-bottom:10px; font-weight:700;">TODAY</div>
+    <div class="flow-steps" style="margin-bottom:20px;">
+      <div class="flow-step"><div class="flow-step-icon">😰</div><div class="flow-step-label">Train cancelled</div><div class="flow-step-sub">User finds out at station</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-step-icon">📱</div><div class="flow-step-label">Opens Seatfrog</div><div class="flow-step-sub">No disruption info shown</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-step-icon">🔍</div><div class="flow-step-label">Hunts for help</div><div class="flow-step-sub">Checks National Rail, TOC app separately</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-step-icon">😤</div><div class="flow-step-label">Frustrated</div><div class="flow-step-sub">Doesn't know if upgrade is valid</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-step-icon">⭐</div><div class="flow-step-label">1★ review</div><div class="flow-step-sub">"No help when cancelled"</div></div>
+    </div>
+    <div style="font-size:12px; color:#00D973; margin-bottom:10px; font-weight:700;">WITH TRIPS LIVE ACTIVITY</div>
+    <div class="flow-steps">
+      <div class="flow-step highlight"><div class="flow-step-icon">🔔</div><div class="flow-step-label">Seatfrog alerts first</div><div class="flow-step-sub">Before user gets to station</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step highlight"><div class="flow-step-icon">✅</div><div class="flow-step-label">Reassurance</div><div class="flow-step-sub">"Your ticket is valid on next service"</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step highlight"><div class="flow-step-icon">🔄</div><div class="flow-step-label">One-tap TrainSwap</div><div class="flow-step-sub">Or confirm same ticket is valid</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step highlight"><div class="flow-step-icon">🏟️</div><div class="flow-step-label">Platform shown</div><div class="flow-step-sub">When confirmed, Live Activity updates</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step highlight"><div class="flow-step-icon">💰</div><div class="flow-step-label">Delay Repay</div><div class="flow-step-sub">Proactively surfaced if eligible</div></div>
+    </div>
+  </div>
+
+  <!-- COMPETITIVE CONTEXT -->
+  <div class="section">
+    <h2><span class="section-num">6</span> Competitive Landscape</h2>
+    <p style="margin-bottom: 16px; font-size:14px; color:#40404A;">This is table stakes that competitors are already building. The window to be first-and-best in our niche is now.</p>
+    <table class="comp-table">
+      <tr>
+        <th>App</th>
+        <th>Live Status</th>
+        <th>Platform Info</th>
+        <th>Disruption Alerts</th>
+        <th>Delay Repay In-App</th>
+        <th>Upgrade + Disruption Combined</th>
+      </tr>
+      <tr>
+        <td><strong>Trainline</strong></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="cross">✗</span></td>
+      </tr>
+      <tr>
+        <td><strong>TrainPal</strong></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="partial">~</span></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="cross">✗</span></td>
+      </tr>
+      <tr>
+        <td><strong>Trip.com</strong></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="cross">✗</span></td>
+      </tr>
+      <tr>
+        <td><strong>National Rail</strong></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="partial">~</span></td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="cross">✗</span></td>
+      </tr>
+      <tr style="background:#EBFAF3;">
+        <td><strong>Seatfrog (proposed)</strong></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="tick">✓</span></td>
+        <td><span class="tick" style="color:#007A40; font-size:15px;">✓ Only us</span></td>
+      </tr>
+    </table>
+    <p style="font-size:13px; color:#40404A;">The combination of live journey intelligence <em>plus</em> upgrade management <em>plus</em> disruption resolution <em>plus</em> one-tap TrainSwap is uniquely ours. No competitor can offer this end-to-end. It's how we become the first app opened on travel day — not just the one used at booking.</p>
+  </div>
+
+  <!-- SUCCESS METRICS -->
+  <div class="section">
+    <h2><span class="section-num">7</span> How We Measure Success</h2>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-icon">📱</div>
+        <div>
+          <div class="metric-title">Live Activity activation rate</div>
+          <div class="metric-target">60%+</div>
+          <div class="metric-desc">Of users with upcoming trips who enable it</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">🔄</div>
+        <div>
+          <div class="metric-title">Disruption → TrainSwap conversion</div>
+          <div class="metric-target">25%+</div>
+          <div class="metric-desc">Of users alerted to disruption who use TrainSwap</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">⭐</div>
+        <div>
+          <div class="metric-title">App Store rating uplift</div>
+          <div class="metric-target">+0.3★</div>
+          <div class="metric-desc">Within 3 months; measure reviews mentioning delays/cancellations</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">🔁</div>
+        <div>
+          <div class="metric-title">Post-disruption retention</div>
+          <div class="metric-target">+15%</div>
+          <div class="metric-desc">Users who experienced disruption and booked again within 30 days</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">💰</div>
+        <div>
+          <div class="metric-title">Delay Repay claims submitted via app</div>
+          <div class="metric-target">Baseline → measure</div>
+          <div class="metric-desc">New metric; currently uncaptured. Target: claim rate exceeds 47% industry average within 6 months</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">📉</div>
+        <div>
+          <div class="metric-title">CS contacts re: disruption</div>
+          <div class="metric-target">–20%</div>
+          <div class="metric-desc">Self-serve resolution should reduce inbound contacts about cancellations and "what do I do"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISKS -->
+  <div class="risk-block">
+    <h2 style="margin-bottom:16px;"><span class="section-num">8</span> Risks & Mitigations</h2>
+    <div class="risk-row">
+      <div>Risk</div>
+      <div>Severity</div>
+      <div>Mitigation</div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-label">Live data feed quality <span class="risk-badge badge-med">Medium</span></div>
+      <div style="font-size:13px; color:#40404A;">Showing wrong status (e.g. "on time" for cancelled) already damages trust — this must be solved before launch, not after.</div>
+      <div style="font-size:13px; color:#40404A;">Audit and replace the existing status data feed first. Don't launch Live Activity on unreliable data — it will make things worse.</div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-label">Notification anxiety <span class="risk-badge badge-med">Medium</span></div>
+      <div style="font-size:13px; color:#40404A;">Our research already notes that current notifications add anxiety rather than reduce it. A badly-timed disruption push could worsen this.</div>
+      <div style="font-size:13px; color:#40404A;">Tiered notification design: critical travel alerts (always on, separated from marketing). User testing before launch. Only send alerts with actionable resolution, not just bad news.</div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-label">iOS-first creates Android gap <span class="risk-badge badge-low">Low (plan for it)</span></div>
+      <div style="font-size:13px; color:#40404A;">Live Activities are iOS-only. Android users would get a worse experience.</div>
+      <div style="font-size:13px; color:#40404A;">Design Android equivalent using persistent rich notifications (already spec'd in roadmap). Must ship within same release cycle — not as an afterthought.</div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-label">Scope creep / distraction from P1 fixes <span class="risk-badge badge-high">High (manage closely)</span></div>
+      <div style="font-size:13px; color:#40404A;">We still have payment/auction stability as P1. Engineering bandwidth is finite.</div>
+      <div style="font-size:13px; color:#40404A;">This is a Phase 2 initiative, contingent on payment/auction stability being resolved first. Don't start discovery on this until P1 fixes are in flight.</div>
+    </div>
+  </div>
+
+  <!-- RECOMMENDATION -->
+  <div class="recommendation">
+    <h2><span class="section-num">9</span> Recommendation</h2>
+    <p class="rec-body">
+      The evidence case for this is unusually strong. <strong>Multiple independent data sources — industry statistics, app store reviews, our own user survey, Reddit discussions, and competitive signals — all point to the same gap.</strong> We are currently abandoning users at their most anxious moment. Our CS team is world-class at fixing this after the fact (90% Trustpilot), but the self-serve experience is broken. This is the feature that closes that gap and turns a trust-destroyer into a trust-builder.
+      <br><br>
+      <strong>Start with the MVP.</strong> Ship the simplest possible version first: detect disruption, push a notification, tell the user what to do next, show it on a Live Activity. This alone will move the needle on reviews and retention — and prove the data feed works before we build more on top of it.
+    </p>
+    <div class="rec-phases">
+      <div class="rec-phase">
+        <div class="phase-tag">Pre-req</div>
+        <div class="phase-content">
+          <h4>Fix status data feed accuracy</h4>
+          <p>Resolve "on time for cancelled trains" bug. Don't build anything on top of broken data.</p>
+        </div>
+      </div>
+      <div class="rec-phase">
+        <div class="phase-tag">MVP</div>
+        <div class="phase-content">
+          <h4>Disruption notification + "what do I do?" screen + Live Activity status pill</h4>
+          <p>Push alert on delay/cancellation → clear next steps screen → ticket validity reassurance → Live Activity showing status. No TrainSwap integration, no platform data, no Delay Repay. Just: tell them what's happening and what it means.</p>
+        </div>
+      </div>
+      <div class="rec-phase">
+        <div class="phase-tag">Phase 1</div>
+        <div class="phase-content">
+          <h4>Full Trips Live Activity — platform info + departure countdown</h4>
+          <p>Expand Live Activity to show platform when confirmed, countdown to departure. iOS Live Activity + Android persistent rich notification.</p>
+        </div>
+      </div>
+      <div class="rec-phase">
+        <div class="phase-tag">Phase 2</div>
+        <div class="phase-content">
+          <h4>Disruption → TrainSwap integration + connection confidence</h4>
+          <p>One-tap TrainSwap from disruption screen. Real-time connection buffer for multi-leg journeys.</p>
+        </div>
+      </div>
+      <div class="rec-phase">
+        <div class="phase-tag">Phase 3</div>
+        <div class="phase-content">
+          <h4>Delay Repay Assist</h4>
+          <p>Auto-surface eligible claims. Builds towards owning the full travel day end to end.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
